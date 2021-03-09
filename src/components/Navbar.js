@@ -20,12 +20,15 @@ const Navbar = () => {
                       justifyContent="space-between"
                      
                       width="100%">
-                 <IconButton edge="start" color="inherit" aria-label="menu">
-        <MenuIcon/>
-    </IconButton>
+                        <Box display="flex" >
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                          <MenuIcon/>
+                        </IconButton>
     <Typography variant="h4" >
       Trivia
     </Typography>
+                        </Box>
+                 
     <Button color="inherit">Login</Button>
                  </Box>
     

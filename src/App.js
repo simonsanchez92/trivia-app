@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import {Fragment, useState, useEffect} from 'react';
 
 import './App.css';
 
@@ -11,11 +11,35 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 
+import {getQuestions} from './actions/questions';
+import { CloudQueueTwoTone } from '@material-ui/icons';
+
 function App() {
 
+  const [questions, setQuestions] = useState([]);
+ const [current, setCurrent] = useState([]);
+ 
+//   useEffect(async()=>{
+//    const results = await getQuestions();
+   
+//    setQuestions(results);
+//  },[])
 
+ const startGame = async()=>{
+  const results = await getQuestions();
+  setQuestions(results);
 
+  handleCurrent();
+ }
 
+ const handleCurrent =  ()=>{
+   const random = (Math.floor(Math.random() * questions.length));
+
+    let question =  questions[random];
+
+    setCurrent(question);
+ 
+ }
 
   return (
 
@@ -43,7 +67,7 @@ function App() {
 </Box>
 
 
-  <Form/>
+  <Form current={current}/>
 {/* 
 <form className="form">
     
@@ -68,6 +92,8 @@ function App() {
 </form>
 
 <button id="start-btn">Start Game</button> */}
+
+<button id="start-btn" onClick={()=> startGame()}>Start Game</button>
 
 <div id="results-container" className="results-container">
     

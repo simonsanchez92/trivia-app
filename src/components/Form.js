@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 
 import FormControl from '@material-ui/core/FormControl';
@@ -13,9 +13,18 @@ import Box from '@material-ui/core/Box';
 
 
 
-const Form = () => {
+const Form = (props) => {
 
+    const[options, setOptions] = useState([]);
     const [selected, setSelected] = useState('');
+    const [question, setQuestion] = useState();
+    
+    
+    useEffect(async ()=>{
+      const quest = await props.current;
+      setQuestion(quest);
+      console.log(question)
+    },[])
 
     const handleChange = (e)=>{
         console.log(e.target.value)
