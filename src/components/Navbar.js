@@ -4,7 +4,8 @@ import {AppBar,
         Toolbar,
         Typography,
         Button,
-        IconButton} from '@material-ui/core';
+        IconButton,
+       Box} from '@material-ui/core';
         
         
 import MenuIcon from '@material-ui/icons/Menu';
@@ -13,14 +14,21 @@ import MenuIcon from '@material-ui/icons/Menu';
 const Navbar = () => {
     return (
         <AppBar position="sticky">
-               <Toolbar>
-    <IconButton edge="start" color="inherit" aria-label="menu">
+               <Toolbar >
+
+                 <Box display="flex" 
+                      justifyContent="space-between"
+                     
+                      width="100%">
+                 <IconButton edge="start" color="inherit" aria-label="menu">
         <MenuIcon/>
     </IconButton>
-    <Typography variant="h6" >
+    <Typography variant="h4" >
       Trivia
     </Typography>
     <Button color="inherit">Login</Button>
+                 </Box>
+    
   </Toolbar>
         </AppBar>
     )

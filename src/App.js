@@ -7,7 +7,8 @@ import Form from './components/Form';
 
 import {Container} from '@material-ui/core';
 
-
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 
 function App() {
@@ -24,16 +25,22 @@ function App() {
     <Container >
   
     <div className="App">
-      <h2>Trivia</h2>
 
-<div className="count-time-container">
-    <h3>Question <span id='question-count'>1</span> of 20</h3>
-    <h3 id="timer">00:00</h3>
-</div>
 
-<div className="question-container" id='question-container'>        
-    <p className='question' id='question'>How many main characters appear in the TV series 'Friends'?</p>
-</div>
+<Box display="flex" py={6} justifyContent="space-between" className="count-time-container">
+    <Typography variant="h5">Question <span id='question-count'>1</span> of 20</Typography>
+    <Typography variant="h5" id="timer">00:00</Typography>
+</Box>
+
+<Box textAlign="left " className="question-container" id='question-container'>        
+
+    <Typography 
+                variant="h4" 
+                color="primary" 
+                className='question'
+                 id='question'>
+                   How many main characters appear in the TV series 'Friends'?</Typography>
+</Box>
 
 
   <Form/>

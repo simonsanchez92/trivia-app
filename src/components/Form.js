@@ -24,27 +24,32 @@ const Form = () => {
 
     return (
         <Box component="form"
-            boxShadow={1}
+          
              my={4}
              
              display="flex"
              flexDirection="column"
              justifyContent="center"
-             alignItems="center"
+             alignItems="flex-start"
              borderRadius="4px"
              className="form">
     
     <Box 
-
-         width={600} maxWidth="100%"
+         boxShadow={1}
+         width={300}
+         maxWidth="100%"
          mb={2}
+         px={6}
+         py={3}
          display="flex"
          flexDirection="column"
         justifyContent="center">
        
-       <Box py={4} px={1} display="flex" width="100%" alignItems="flex-start">
+       <Box py={2} px={1} display="flex" width="100%" alignItems="flex-start">
        <FormControl  size='small' >
-      <FormLabel component="legend">Only one answer is valid</FormLabel>
+      <FormLabel component="legend"
+                 color="primary"
+                 filled={true}>Only one is true...</FormLabel>
       
   <RadioGroup  aria-label="gender" name="gender1" value={selected} onChange={(e)=> handleChange(e)}>
         <FormControlLabel value="female" control={<Radio />} label="Female" />
