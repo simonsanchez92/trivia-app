@@ -10,32 +10,68 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 
+import {connect} from 'react-redux';
+import {setCurrent,
+        submitAnswer} from '../actions/trivia'
 
-const Form = (props) => {
+const Form = ({setCurrent,submitAnswer, questions, questionNumber, answers, current, currentCorrect}) => {
 
-    const[options, setOptions] = useState([]);
+    
     const [selected, setSelected] = useState('');
-    const [question, setQuestion] = useState();
+    
     
     
     useEffect(async ()=>{
-      const quest = await props.current;
-      setQuestion(quest);
-      console.log(question)
-    },[])
+      
+      // setCurrent(questions);
+    
+    },[]);
+
+   
+    const handleSubmit = (e)=>{
+
+      if(selected !== ''){
+        submitAnswer(selected, currentCorrect);
+        setCurrent(questions);
+      }
+    
+      if(selected === currentCorrect){
+        console.log('Correct!');
+      }else{
+        console.log('incorrect!');
+      }
+    }
 
     const handleChange = (e)=>{
-        console.log(e.target.value)
         setSelected(e.target.value)
-       }
+      }
 
     return (
+      <Box>
+        
+<Box display="flex" py={6} justifyContent="space-between" className="count-time-container">
+    <Typography variant="h5">Question <span id='question-count'>{questionNumber}</span> of 20</Typography>
+    <Typography variant="h5" id="timer">00:00</Typography>
+</Box>
+
+
+        
+<Box textAlign="left " className="question-container" id='question-container'>        
+
+<Typography 
+            variant="h4" 
+            color="primary" 
+            className='question'
+             id='question'>
+                {current && current.question}</Typography>
+</Box>
         <Box component="form"
-          
+            
              my={4}
-             
+          
              display="flex"
              flexDirection="column"
              justifyContent="center"
@@ -45,8 +81,8 @@ const Form = (props) => {
     
     <Box 
          boxShadow={1}
-         width={300}
-         maxWidth="100%"
+         width={600}
+         
          mb={2}
          px={6}
          py={3}
@@ -61,22 +97,31 @@ const Form = (props) => {
                  filled={true}>Only one is true...</FormLabel>
       
   <RadioGroup  aria-label="gender" name="gender1" value={selected} onChange={(e)=> handleChange(e)}>
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
-        <FormControlLabel value="other" control={<Radio />} label="Other" />
-        <FormControlLabel value="disabled" control={<Radio />} label="(Disabled option)" />
+
+      {answers && answers.map((answer,i)=> <FormControlLabel key={i} value={answer} control={<Radio />} label={answer} />)}
+
   </RadioGroup>
 
     </FormControl>
        </Box>
       
 
-    <Button variant="contained" color="primary"  >Submit</Button>
+    <Button onClick={()=>handleSubmit()} variant="contained" color="primary"  >Submit</Button>
 
     </Box>
   
         </Box>
+      </Box>
+
     )
 }
 
-export default Form;
+const mapStateToProps = state=>({
+ questions: state.triviaReducer.questions,
+ current: state.triviaReducer.current,
+ answers: state.triviaReducer.answers,
+ currentCorrect: state.triviaReducer.currentCorrect,
+ questionNumber: state.triviaReducer.questionNumber
+});
+
+export default connect(mapStateToProps, {setCurrent, submitAnswer})(Form);
