@@ -1,67 +1,89 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import {connect} from 'react-redux';
 import {makeStyles} from '@material-ui/core/styles';
-import {IconButton, Toolbar, Button} from '@material-ui/core';
-import {AppBar} from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 
-import SortIcon from '@material-ui/icons/Sort';
+import store from '../store';
+import {useHistory} from 'react-router-dom';
 
+import {getQuestions} from '../actions/trivia';
 
 const useStyles = makeStyles({
     root: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',    
-        color: '#fff'
-    },
-    appBar: {
-        background: 'none'
-    },
-    icon: {
-        color: '#fff',
-        fontSize: '2rem'
-    },
-    appBarTitle: {
-        flexGrow: '1'
-    },
-    appBarWrapper:{
-        width: '80%',
-        margin: '0 auto'
+        height: '100vh',
     },
     hero:{
+        backgroundColor: '#eee',
+        margin: '0 10px',
+        padding:'20px',
         border: '2px solid black',
-        zIndex:'10'
+        borderRadius:'4px',
+        zIndex:'10',
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems:'center'
     },
     heroTitle:{
         fontSize: '3rem'
     },
     heroBtns:{
-        display:'flex',
-        justifyContent:'space-around'
+        width: '75%',
+        display: 'flex',
+        flexDirection:'column',
+        justifyContent:'center'
+    },
+    playBtnContainer:{
+        display: 'flex',
+       
+        margin:'20px 0'
+    },
+    textField:{
+        flex:'1'
     }
 })
 
 const Header = (props) => {
+    const classes = useStyles(props);
+    const history = useHistory();
+
+
+    const [formData, setFormData] = useState('');
+
+    const handleChange = (e)=>{
+        setFormData(e.target.value);
+    }
     
-    const classes = useStyles(props)
-    
+    const handlePlay = ()=>{
+        if(formData !== ''){
+            store.dispatch(getQuestions());            
+            history.push('/game');
+        }
+    }
 
     return (
         <div className={classes.root}>
-            <AppBar className={classes.appBar} elevation={0}>
-                <Toolbar className={classes.appBarWrapper}>
-                <h1 className={classes.appBarTitle}>Trivia</h1>
-                <IconButton>
-                    <SortIcon className={classes.icon}/>
-                </IconButton>
-                </Toolbar>
-            </AppBar>
+           
             <div className={classes.hero}>
                 <h1 className={classes.heroTitle}>Ready to test your knowledge?</h1>
                 <div className={classes.heroBtns}>
-                    <Button color="primary" variant='contained'>Play</Button>
+                    
+                    <div className={classes.playBtnContainer}>
+                     
+                        <TextField value={formData}
+                                   onChange={(e)=> handleChange(e)}
+                                   className={classes.textField}
+                                   variant="outlined"
+                                   size='small'
+                                   label="Your name:" />
+                         <Button color="primary"
+                                 variant='contained'
+                                 onClick={()=> handlePlay()}>Play</Button>
+                    </div>
                     <Button color="primary" variant='contained'>See Rankings</Button>
                 </div>
             </div>

@@ -1,17 +1,15 @@
-import {Fragment, useState, useEffect} from 'react';
-
-// import './App.css';
+import './App.css';
 
 import Navbar from './components/Navbar';
-import Form from './components/Form';
-
+import Game from './components/Game';
 import Home from './components/Home';
-import Header from './components/Header';
 
-import {Container} from '@material-ui/core';
-
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 
 import {getQuestions} from './actions/trivia';
@@ -20,21 +18,47 @@ import {getQuestions} from './actions/trivia';
 import {Provider} from 'react-redux';
 import store from './store';
 
+import {makeStyles} from '@material-ui/core/styles';
 
-function App() {
+const useStyles = makeStyles({
+  root: {
+      position: 'relative',
+      backgroundImage: `url(${process.env.PUBLIC_URL + '/assets/background.jpg'})`,
+      backgroundColor: '#232A34',
+      minHeight: '100vh',
+      backgroundRepeat:'no-repeat',
+      backgroundSize: 'cover',
+      zIndex:'5',
+      
+  },
+  overlay:{
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      width: '100%',
+      backgroundColor: 'black',
+      opacity: '0.5',
+      zIndex:'1'
+      
+  },
+  pages:{
 
-  const [questions, setQuestions] = useState([]);
- const [current, setCurrent] = useState([]);
- 
+    margin: '20px 0'
+  }
+})
 
+
+function App(props) {
+
+  const classes = useStyles(props);
 
  const startGame = ()=>{
-  store.dispatch(getQuestions())
- }
+  store.dispatch(getQuestions());
+ };
 
  const answer = ()=>{
-   console.log('Answering')
- }
+   console.log('Answering');
+ };
 
  
 
@@ -42,24 +66,35 @@ function App() {
 
 <Provider store={store}>
 
-<Fragment>
-    {/* <Navbar/> */}
+  <div className={classes.root}>
   
- 
 
-    <Home/>
-  {/* <Form/> */}
+    <Router>
 
+        <Navbar/>
+      <div className={classes.pages}>
 
-<button id="start-btn" onClick={()=> startGame()}>Start Game</button>
+    <Switch>
+       
+      <Route exact path='/'>  <Home/> </Route>
+      <Route exact path='/game'>  <Game/> </Route>
+        
+
+    </Switch>
+    </div>
+
+    
+  
+{/* <button id="start-btn" onClick={()=> startGame()}>Start Game</button>
 
 <button id="answer-btn" onClick={()=> answer()}>Answer!</button>
+ */}
 
+</Router>
+{/* <div className={classes.overlay}></div> */}
 
-  
-  
+</div>
 
-    </Fragment>
     </Provider>
   );
 }

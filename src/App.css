@@ -1,13 +1,15 @@
 
-*{
+/* *{
   font-family: 'Roboto', sans-serif;;
 }
 
 
 .App {
   text-align: center;
+} */
+body{
+  padding-top: 58px;
 }
-
 /* form{
   border: 2px solid red;
   display: flex;
@@ -15,6 +17,10 @@
   justify-content: center;
   align-items: center;
 } */
+
+#test{
+  background-color: #2c2c2ce7;
+}
 
 
 

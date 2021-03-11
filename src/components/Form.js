@@ -3,21 +3,59 @@ import React, {useState, useEffect} from 'react'
 
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputLabel from '@material-ui/core/InputLabel';
+
 import Button from '@material-ui/core/Button';
-import FormLabel from '@material-ui/core/FormLabel';
+
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+
+import {makeStyles} from '@material-ui/core/styles';
 
 
 import {connect} from 'react-redux';
 import {setCurrent,
         submitAnswer} from '../actions/trivia'
 
-const Form = ({setCurrent,submitAnswer, questions, questionNumber, answers, current, currentCorrect}) => {
+// import {Html5Entities} from 'html-entities';
+
+const useStyles = makeStyles({
+  root: {
+    marginTop: '30px',
+    backgroundColor: '#2c2c2cc9',
+    width: '85%',
+    color: '#eee',
+    padding: '20px'
+   
+  },
+  timerContainer:{
+     display: 'flex',
+     justifyContent: 'space-between'
+  },
+  questionContainer:{
+
+  },
+  form:{
+    display:'flex',
+    flexDirection:'column',
+    justifyContent: 'center',
+    alignItems:'center'
+  },
+  optionsContainer:{
+    width: '100%',
+    padding: '15px 0'
+  },
+  formButton:{
+    width: '500px',
+    maxWidth:'100%'
+  }
+})
+
+
+const Form = ({ownProps, setCurrent,submitAnswer, questions, questionNumber, answers, current, currentCorrect}) => {
+
+
+  const classes = useStyles(ownProps);
 
     
     const [selected, setSelected] = useState('');
@@ -50,36 +88,25 @@ const Form = ({setCurrent,submitAnswer, questions, questionNumber, answers, curr
       }
 
     return (
-      <Box>
+      <div className={classes.root} id='test'>
         
-<Box display="flex" py={6} justifyContent="space-between" className="count-time-container">
-    <Typography variant="h5">Question <span id='question-count'>{questionNumber}</span> of 20</Typography>
-    <Typography variant="h5" id="timer">00:00</Typography>
-</Box>
+<div  className={classes.timerContainer}>
+    <h3>Question <span id='question-count'>{questionNumber}</span> of 20</h3>
+    <h3 id="timer">00:00</h3>
+</div>
 
 
         
-<Box textAlign="left " className="question-container" id='question-container'>        
+<div className={classes.questionContainer} id='question-container'>        
 
-<Typography 
-            variant="h4" 
-            color="primary" 
-            className='question'
+<h2  className='question'
              id='question'>
-                {current && current.question}</Typography>
-</Box>
-        <Box component="form"
-            
-             my={4}
-          
-             display="flex"
-             flexDirection="column"
-             justifyContent="center"
-             alignItems="flex-start"
-             borderRadius="4px"
-             className="form">
+                {current && current.question}</h2>
+</div>
+        <form component="form" className={classes.form}>
     
-    <Box 
+    <div 
+         className={classes.optionsContainer}
          boxShadow={1}
          width={600}
          
@@ -90,11 +117,8 @@ const Form = ({setCurrent,submitAnswer, questions, questionNumber, answers, curr
          flexDirection="column"
         justifyContent="center">
        
-       <Box py={2} px={1} display="flex" width="100%" alignItems="flex-start">
-       <FormControl  size='small' >
-      <FormLabel component="legend"
-                 color="primary"
-                 filled={true}>Only one is true...</FormLabel>
+       <FormControl  size='large' >
+   
       
   <RadioGroup  aria-label="gender" name="gender1" value={selected} onChange={(e)=> handleChange(e)}>
 
@@ -103,25 +127,27 @@ const Form = ({setCurrent,submitAnswer, questions, questionNumber, answers, curr
   </RadioGroup>
 
     </FormControl>
-       </Box>
+    
       
 
-    <Button onClick={()=>handleSubmit()} variant="contained" color="primary"  >Submit</Button>
 
-    </Box>
+    </div>
+    <Button className={classes.formButton}
+            onClick={()=>handleSubmit()} variant="contained" color="primary">Submit</Button>
   
-        </Box>
-      </Box>
+        </form>
+      </div>
 
     )
 }
 
-const mapStateToProps = state=>({
+const mapStateToProps = (state, ownProps)=>({
  questions: state.triviaReducer.questions,
  current: state.triviaReducer.current,
  answers: state.triviaReducer.answers,
  currentCorrect: state.triviaReducer.currentCorrect,
- questionNumber: state.triviaReducer.questionNumber
+ questionNumber: state.triviaReducer.questionNumber,
+ ownProps: ownProps
 });
 
 export default connect(mapStateToProps, {setCurrent, submitAnswer})(Form);
