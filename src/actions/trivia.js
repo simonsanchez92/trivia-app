@@ -6,20 +6,40 @@ import {QUESTIONS_LOADED,
         QUESTIONS_LOADED_FAIL,
         SET_CURRENT,
         SET_ANSWERS,
+        SET_USERNAME,
         CORRECT_ANSWER,
         INCORRECT_ANSWER,
-        UPDATE_BANK} from './types';
+        UPDATE_BANK,
+        GAME_OVER} from './types';
 
 
 const URL = 'https://opentdb.com/api.php?amount=20&type=multiple';
 
 
-
-
-export const test = ()=>{
-
-    console.log("Now working fine")
-}
+const decodeHTML = (text)=>{
+    const entities = [
+      ['amp', '&'],
+      ['apos', '\''],
+      ['#039', '\''],
+      ['#x27', '\''],
+      ['#x2F', '/'],
+      ['#39', '\''],
+      ['#47', '/'],
+      ['lt', '<'],
+      ['gt', '>'],
+      ['nbsp', ' '],
+      ['quot', '"'],
+      ['pi', 'π'],
+      ['aacute', 'á'],
+      ['eacute', 'é'],
+      ['iacute', 'í'],
+      ['oacute', 'ó'],
+      ['uacute', 'ú']
+  ];
+  for (let i = 0, max = entities.length; i < max; ++i) 
+      text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+      return text; 
+  }
 
 export const getQuestions = ()=> async dispatch=>{
 
@@ -46,8 +66,10 @@ export const getQuestions = ()=> async dispatch=>{
 export const setCurrent = (questions)=> async dispatch=>{
 
 
+
     const random = (Math.floor(Math.random() * questions.length));
     let current =   await questions[random];
+    current.question = decodeHTML(current.question);
 
      store.dispatch(updateBank(questions, current));
 
@@ -69,6 +91,8 @@ export const setOptions = (question)=> async dispatch=>{
    let options = await [...question.incorrect_answers, question.correct_answer]; 
    //Shuffle array of options
    options = options.sort(()=> Math.random() - 0.5);
+   options = options.map(option=> decodeHTML(option));
+
 
    const correct = question.correct_answer;
     
@@ -87,7 +111,6 @@ export const setOptions = (question)=> async dispatch=>{
 export const updateBank = (questions, current)=> async dispatch=>{
 
     const remainingQuestions = questions.filter(question=> question.question !== current.question)
-    console.log('Hola desde update bank')
    
     dispatch({
         type: UPDATE_BANK,
@@ -110,4 +133,34 @@ export const submitAnswer = (choice, correct)=> async dispatch=>{
     }
     
 }
+
+
+export const setUser = (username)=> async dispatch=>{
+    const user = username.toUpperCase(); 
+
+    dispatch({
+        type: SET_USERNAME,
+        payload: user
+    })
+
+}
+
+export const startClock = (time)=> async dispatch=>{
+ 
+    // let time = 0;
+    let newTime =  setInterval(()=>{
+         time = time + 1;
+    }, 1000)
+
+    return newTime;
+}
+
+
+export const gameOver = ()=> async dispatch=>{
+        dispatch({
+            type: GAME_OVER
+        })
+ 
+}
+
 

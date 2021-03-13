@@ -3,12 +3,13 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Game from './components/Game';
 import Home from './components/Home';
+import Rankings from './components/Rankings';
+
 
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 
@@ -52,16 +53,7 @@ function App(props) {
 
   const classes = useStyles(props);
 
- const startGame = ()=>{
-  store.dispatch(getQuestions());
- };
-
- const answer = ()=>{
-   console.log('Answering');
- };
-
  
-
   return (
 
 <Provider store={store}>
@@ -72,23 +64,20 @@ function App(props) {
     <Router>
 
         <Navbar/>
+   
       <div className={classes.pages}>
 
     <Switch>
        
-      <Route exact path='/'>  <Home/> </Route>
+      <Route exact path='/'> <Home/></Route>
       <Route exact path='/game'>  <Game/> </Route>
+      <Route exact path='/rankings'>  <Rankings/> </Route>
         
 
     </Switch>
     </div>
 
-    
-  
-{/* <button id="start-btn" onClick={()=> startGame()}>Start Game</button>
 
-<button id="answer-btn" onClick={()=> answer()}>Answer!</button>
- */}
 
 </Router>
 {/* <div className={classes.overlay}></div> */}

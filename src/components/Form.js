@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-
+import {useHistory} from 'react-router-dom';
 
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -15,7 +15,11 @@ import {makeStyles} from '@material-ui/core/styles';
 
 import {connect} from 'react-redux';
 import {setCurrent,
-        submitAnswer} from '../actions/trivia'
+        submitAnswer,
+        gameOver} from '../actions/trivia'
+
+import Watch from './Watch';
+
 
 // import {Html5Entities} from 'html-entities';
 
@@ -30,7 +34,8 @@ const useStyles = makeStyles({
   },
   timerContainer:{
      display: 'flex',
-     justifyContent: 'space-between'
+     justifyContent: 'space-between',
+     alignItems:'center'
   },
   questionContainer:{
 
@@ -52,34 +57,35 @@ const useStyles = makeStyles({
 })
 
 
-const Form = ({ownProps, setCurrent,submitAnswer, questions, questionNumber, answers, current, currentCorrect}) => {
+const Form = ({ownProps,
+               gameOver,
+               setCurrent,
+               submitAnswer,
+               questions,
+               questionNumber,
+               answers,
+               current,
+               currentCorrect}) => {
 
 
   const classes = useStyles(ownProps);
-
+  const history = useHistory();
     
     const [selected, setSelected] = useState('');
     
-    
-    
-    useEffect(async ()=>{
-      
-      // setCurrent(questions);
-    
-    },[]);
-
    
     const handleSubmit = (e)=>{
 
-      if(selected !== ''){
+      if(selected !== '' && questions.length > 0){
+        
         submitAnswer(selected, currentCorrect);
         setCurrent(questions);
-      }
-    
-      if(selected === currentCorrect){
-        console.log('Correct!');
-      }else{
-        console.log('incorrect!');
+        setSelected('');
+
+        console.log(questions);
+      }else if(questions.length < 1){
+        gameOver();
+        history.push('/');
       }
     }
 
@@ -92,7 +98,7 @@ const Form = ({ownProps, setCurrent,submitAnswer, questions, questionNumber, ans
         
 <div  className={classes.timerContainer}>
     <h3>Question <span id='question-count'>{questionNumber}</span> of 20</h3>
-    <h3 id="timer">00:00</h3>
+    <h3 id="timer"><Watch/></h3>
 </div>
 
 
@@ -105,19 +111,9 @@ const Form = ({ownProps, setCurrent,submitAnswer, questions, questionNumber, ans
 </div>
         <form component="form" className={classes.form}>
     
-    <div 
-         className={classes.optionsContainer}
-         boxShadow={1}
-         width={600}
-         
-         mb={2}
-         px={6}
-         py={3}
-         display="flex"
-         flexDirection="column"
-        justifyContent="center">
+    <div className={classes.optionsContainer}>
        
-       <FormControl  size='large' >
+       <FormControl  size='medium' >
    
       
   <RadioGroup  aria-label="gender" name="gender1" value={selected} onChange={(e)=> handleChange(e)}>
@@ -150,4 +146,4 @@ const mapStateToProps = (state, ownProps)=>({
  ownProps: ownProps
 });
 
-export default connect(mapStateToProps, {setCurrent, submitAnswer})(Form);
+export default connect(mapStateToProps, {setCurrent, submitAnswer, gameOver})(Form);

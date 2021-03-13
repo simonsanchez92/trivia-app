@@ -4,19 +4,22 @@ import {
     UPDATE_BANK,
     SET_ANSWERS,
     CORRECT_ANSWER,
-    INCORRECT_ANSWER
+    INCORRECT_ANSWER,
+    GAME_OVER,
+    SET_USERNAME
 
 
 } from '../actions/types';
 
 const initialState ={
+    user: '',
     questions: [],
     questionNumber: 0,
     current: '',
     currentCorrect: '',
     answers: [],
     score: 0,
-    loading: true 
+    time: 0
 }
 
 
@@ -60,6 +63,21 @@ function triviaReducer(state = initialState, action){
                     questionNumber: state.questionNumber + 1,
                     questions: payload
                 }
+        case GAME_OVER:
+            return {
+                ...state,
+                questions: [],
+                questionNumber: 0,
+                current: '',
+                currentCorrect: '',
+                answers: [],
+                score: 0
+            }
+        case SET_USERNAME:
+            return {
+                ...state,
+                user: payload
+            }
         default:
             return state
 

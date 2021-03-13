@@ -4,10 +4,13 @@ import {connect} from 'react-redux';
 import {makeStyles} from '@material-ui/core/styles';
 import { Button, TextField } from '@material-ui/core';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+
 import store from '../store';
 import {useHistory} from 'react-router-dom';
 
-import {getQuestions} from '../actions/trivia';
+import {getQuestions, setUser} from '../actions/trivia';
 
 const useStyles = makeStyles({
     root: {
@@ -50,9 +53,34 @@ const useStyles = makeStyles({
 const Header = (props) => {
     const classes = useStyles(props);
     const history = useHistory();
+    
+ const [formData, setFormData] = useState('');
+ const [textFieldError, setTextFieldError] = useState(false);
+
+ const [open, setOpen] = useState(false);
 
 
-    const [formData, setFormData] = useState('');
+
+ 
+
+  const handleClickOpen = () => {
+      if(formData !== ''){
+        setTextFieldError(false);
+        setOpen(true);
+      }else{
+        setTextFieldError(true);
+      }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setTextFieldError(false);
+  };
+
+
+
+
+
 
     const handleChange = (e)=>{
         setFormData(e.target.value);
@@ -61,13 +89,13 @@ const Header = (props) => {
     const handlePlay = ()=>{
         if(formData !== ''){
             store.dispatch(getQuestions());            
+            store.dispatch(setUser(formData));            
             history.push('/game');
         }
     }
 
     return (
         <div className={classes.root}>
-           
             <div className={classes.hero}>
                 <h1 className={classes.heroTitle}>Ready to test your knowledge?</h1>
                 <div className={classes.heroBtns}>
@@ -79,17 +107,47 @@ const Header = (props) => {
                                    className={classes.textField}
                                    variant="outlined"
                                    size='small'
+                                   error={textFieldError}
                                    label="Your name:" />
-                         <Button color="primary"
-                                 variant='contained'
-                                 onClick={()=> handlePlay()}>Play</Button>
+                         <div>
+            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                Play
+            </Button>
+            <Dialog
+  open={open}
+  onClose={handleClose}
+  aria-labelledby="alert-dialog-title"
+  aria-describedby="alert-dialog-description"
+>
+  <h3>Are you ready to play?</h3>
+  
+    <p id="alert-dialog-description">
+      Before clicking on "Yes", prepare yourself and focus to answer 20 questions in the least amount of time
+    </p>
+  
+  <DialogActions>
+    <Button onClick={()=> handlePlay()} color="primary">
+      Yes
+    </Button>
+    <Button onClick={handleClose} color="primary" autoFocus>
+      No
+    </Button>
+  </DialogActions>
+</Dialog>
+
+</div>
+
                     </div>
                     <Button color="primary" variant='contained'>See Rankings</Button>
                 </div>
             </div>
+           
         </div> 
     )
 }
+
+
+
 
 const mapStateToProps = state=>({
 
