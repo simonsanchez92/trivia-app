@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useRef} from 'react'
 import {useHistory} from 'react-router-dom';
 
 import FormControl from '@material-ui/core/FormControl';
@@ -72,8 +72,8 @@ const Form = ({ownProps,
   const history = useHistory();
     
     const [selected, setSelected] = useState('');
-    
    
+    
     const handleSubmit = (e)=>{
 
       if(selected !== '' && questions.length > 0){
@@ -82,12 +82,13 @@ const Form = ({ownProps,
         setCurrent(questions);
         setSelected('');
 
-        console.log(questions);
       }else if(questions.length < 1){
+       
         gameOver();
         history.push('/');
       }
     }
+
 
     const handleChange = (e)=>{
         setSelected(e.target.value)
@@ -98,7 +99,7 @@ const Form = ({ownProps,
         
 <div  className={classes.timerContainer}>
     <h3>Question <span id='question-count'>{questionNumber}</span> of 20</h3>
-    <h3 id="timer"><Watch/></h3>
+    <h3 id="timer"><Watch /></h3>
 </div>
 
 

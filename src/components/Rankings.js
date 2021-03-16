@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 const Rankings = () => {
     return (
         <div>
-            
+            <h2>This are the rankings</h2>
         </div>
     )
 }

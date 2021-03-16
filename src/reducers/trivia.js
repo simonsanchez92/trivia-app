@@ -71,7 +71,8 @@ function triviaReducer(state = initialState, action){
                 current: '',
                 currentCorrect: '',
                 answers: [],
-                score: 0
+                score: 0,
+                time: payload
             }
         case SET_USERNAME:
             return {

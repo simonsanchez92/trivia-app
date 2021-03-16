@@ -145,20 +145,19 @@ export const setUser = (username)=> async dispatch=>{
 
 }
 
-export const startClock = (time)=> async dispatch=>{
- 
-    // let time = 0;
-    let newTime =  setInterval(()=>{
-         time = time + 1;
-    }, 1000)
 
-    return newTime;
+let currentTime = 0;
+
+export const getTime = (time)=> async dispatch=>{
+    currentTime = time;       
+  return currentTime;
 }
-
-
 export const gameOver = ()=> async dispatch=>{
+        
+        console.log(`Total time is ${currentTime}`)
         dispatch({
-            type: GAME_OVER
+            type: GAME_OVER,
+            payload: currentTime
         })
  
 }
