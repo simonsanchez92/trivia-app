@@ -1,35 +1,13 @@
-import React from 'react'
+import React from "react";
 
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 
-import {CssBaseline} from '@material-ui/core';
-
-import Header from './Header';
-
-
-
+import Header from "./Header";
 
 const Home = (props) => {
-    
+  return <Header />;
+};
 
-    
-
-    return (
-    
-        <div>
-            <CssBaseline/>
-
-             <Header/>
-
-        </div>
-    )
-}
-
-const mapStateToProps = state=>({
-
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps)(Home);
-
-
-

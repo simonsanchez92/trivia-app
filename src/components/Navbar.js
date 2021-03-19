@@ -1,54 +1,84 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
-import {AppBar,
-        Toolbar,
-        Typography,
-        Button,
-        IconButton,
-        } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, createStyles } from "@material-ui/core";
 
-import SortIcon from '@material-ui/icons/Sort';
-       
-        
-import MenuIcon from '@material-ui/icons/Menu';
-import {makeStyles} from '@material-ui/core/styles';
+import SortIcon from "@material-ui/icons/Sort";
+import { makeStyles } from "@material-ui/core/styles";
 
+// const useStyles = makeStyles({
+//   appBar: {
+//     height: "80px",
+//     display: "flex",
+//     justifyContent: "center",
+//   },
+//   icon: {
+//     color: "#fff",
+//     flex: "1",
+//     fontSize: "2rem",
+//   },
+//   appBarTitle: {
+//     fontSize: "30px",
+//     color: "#fff",
+//     textDecoration: "none",
+//     border: "0",
+//     outline: "0",
+//   },
+//   appBarWrapper: {
+//     width: "80%",
+//     margin: "0 auto",
+//     display: "flex",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//   },
+// });
 
-const useStyles = makeStyles({
-
-  appBar: {
-    height: '80px'
-      
-  },
-  icon: {
-      color: '#fff',
-      fontSize: '2rem',
-     
-  },
-  appBarTitle: {
-      flexGrow: '1'
-  },
-  appBarWrapper:{
-      width: '80%',
-      margin: '0 auto'
-  }
-})
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    appBar: {
+      height: "80px",
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: theme.palette.info.dark,
+      zIndex: theme.zIndex.appBar,
+    },
+    icon: {
+      color: "#fff",
+      flex: "1",
+      fontSize: "2rem",
+    },
+    appBarTitle: {
+      fontSize: theme.typography.h4.fontSize,
+      color: "#fff",
+      textDecoration: "none",
+      border: "0",
+      outline: "0",
+    },
+    appBarWrapper: {
+      width: "80%",
+      margin: "0 auto",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+  })
+);
 
 const Navbar = (props) => {
+  const classes = useStyles(props);
 
-  const classes = useStyles(props)
-
-    return (
-      <AppBar className={classes.appBar} elevation={0}>
+  return (
+    <AppBar className={classes.appBar} elevation={0}>
       <Toolbar className={classes.appBarWrapper}>
-      <h1 className={classes.appBarTitle}>Trivia</h1>
-      <IconButton>
-          <SortIcon className={classes.icon}/>
-      </IconButton>
+        <Link className={classes.appBarTitle} to="/">
+          Trivia
+        </Link>
+        <IconButton>
+          <SortIcon className={classes.icon} />
+        </IconButton>
       </Toolbar>
-     </AppBar>
-    )
-}
-
+    </AppBar>
+  );
+};
 
 export default Navbar;
