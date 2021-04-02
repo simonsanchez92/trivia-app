@@ -12,6 +12,7 @@ import {
   INCORRECT_ANSWER,
   UPDATE_BANK,
   GAME_OVER,
+  RESET_STATE,
 } from "./types";
 
 const URL = "https://opentdb.com/api.php?amount=20&type=multiple";
@@ -157,5 +158,11 @@ export const gameOver = (user, score) => async (dispatch) => {
   dispatch({
     type: GAME_OVER,
     payload: currentTime,
+  });
+};
+
+export const resetState = () => async (dispatch) => {
+  dispatch({
+    type: RESET_STATE,
   });
 };

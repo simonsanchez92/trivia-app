@@ -15,15 +15,17 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
-    position: "relative",
+    // position: "relative",
     backgroundImage: `url(${
       process.env.PUBLIC_URL + "/assets/background.jpg"
     })`,
     backgroundColor: "#232A34",
-    minHeight: "100vh",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     zIndex: "5",
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
   },
   overlay: {
     position: "absolute",
@@ -35,8 +37,11 @@ const useStyles = makeStyles({
     zIndex: "1",
   },
   pages: {
-    padding: "20px 0",
-    height: "100vh",
+    flex: "1",
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "center",
   },
 });
 
@@ -45,31 +50,30 @@ function App(props) {
 
   return (
     <Provider store={store}>
-      <Router>
-        <Navbar />
+      <div className={classes.root}>
+        <Router>
+          <Navbar />
 
-        <div className={classes.root}>
-          <div className={classes.pages}>
+          <main className={classes.pages}>
             <Switch>
               <Route exact path="/">
                 {" "}
                 <Home />
               </Route>
-              <Route exact path="/game">
+              <Route path="/game">
                 {" "}
                 <Game />{" "}
               </Route>
-              <Route exact path="/rankings">
+              <Route path="/rankings">
                 {" "}
                 <Rankings />{" "}
               </Route>
             </Switch>
-          </div>
+          </main>
           {/* <div className={classes.overlay}></div> */}
-        </div>
-      </Router>
-
-      <Footer />
+        </Router>
+        <Footer />
+      </div>
     </Provider>
   );
 }
