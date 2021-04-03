@@ -9,10 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) =>
   createStyles({
     appBar: {
-      // height: "80px",
       display: "flex",
       justifyContent: "center",
-      // zIndex: theme.zIndex.appBar,
     },
     icon: {
       color: "#fff",
@@ -40,7 +38,7 @@ const Navbar = (props) => {
   const classes = useStyles(props);
 
   return (
-    <AppBar className={classes.appBar} color="primary" position="sticky">
+    <AppBar className={classes.appBar} position="sticky">
       <Toolbar className={classes.appBarWrapper}>
         <Link className={classes.appBarTitle} to="/">
           Trivia

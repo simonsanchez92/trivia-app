@@ -23,11 +23,13 @@ import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfie
 
 const useStyles = makeStyles({
   root: {
+    margin: "0 auto",
     marginTop: "30px",
-    backgroundColor: "#2c2c2cc9",
+    backgroundColor: "#2c2c2ccc",
     width: "85%",
     color: "#eee",
     padding: "20px",
+    zIndex: "2",
   },
   timerContainer: {
     display: "flex",
@@ -112,7 +114,7 @@ const Game = ({
   };
 
   return (
-    <div className={classes.root} id="test">
+    <div className={classes.root}>
       <div className={classes.timerContainer}>
         <h3>
           Question <span id="question-count">{questionNumber}</span> of 20

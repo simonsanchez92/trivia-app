@@ -3,12 +3,28 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+
 import RankingsTable from "./RankingsTable";
 
-const Rankings = () => {
+import { formatTime } from "../utils/timeFormatter";
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      zIndex: "2",
+      height: "100%",
+    },
+  })
+);
+
+const Rankings = (props) => {
+  const classes = useStyles(props);
+
   const [users, setUsers] = useState([]);
 
   function createData(name, score, time) {
+    time = formatTime(time);
     return { name, score, time };
   }
   //Fetch users from database
@@ -35,8 +51,8 @@ const Rankings = () => {
   }, []);
 
   return (
-    <div>
-      {users === undefined ? <h1>Holi</h1> : <RankingsTable users={users} />}
+    <div className={classes.root}>
+      <RankingsTable users={users} />
     </div>
   );
 };

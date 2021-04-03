@@ -99,14 +99,13 @@ const useStyles2 = makeStyles({
   tableContainer: {
     boxShadow: "none",
     background: "0",
-    paddingTop: "40px",
     height: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
   table: {
-    width: "600px",
+    width: "450px",
     border: "1px solid black",
     backgroundColor: "#eee",
     maxWidth: "100%",
@@ -115,12 +114,14 @@ const useStyles2 = makeStyles({
   },
   tableFooter: {
     backgroundColor: "#fff",
-    borderTop: "2px solid black",
   },
   skeleton: {
-    width: "600px",
+    width: "450px",
     margin: "0 auto",
     paddingTop: "40px",
+  },
+  skeletonChild: {
+    backgroundColor: "#f0e5e53f",
   },
 });
 
@@ -129,7 +130,8 @@ const StyledTableCell = withStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.common.white,
     fontSize: theme.typography.h5.fontSize,
-    textAlign: "center",
+    textAlign: "justify",
+    borderBottom: "2px solid black",
   },
   body: {
     backgroundColor: theme.palette.background.paper,
@@ -137,16 +139,18 @@ const StyledTableCell = withStyles((theme) => ({
     fontSize: theme.typography.htmlFontSize,
     fontWeight: theme.typography.fontWeightMedium,
     border: "0",
-    textAlign: "center",
+    textAlign: "justify",
+    borderBottom: "1px solid black",
   },
 }))(TableCell);
 
 const CustomPaginationActionsTable = (props) => {
   const { users } = props;
+
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  console.log(users.length === 0);
+
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
 
@@ -161,25 +165,53 @@ const CustomPaginationActionsTable = (props) => {
 
   return users.length === 0 ? (
     <div className={classes.skeleton}>
-      <Skeleton height={80} variant="rect" animation="wave" />
-      <Skeleton height={60} variant="text" animation="wave" />
-      <Skeleton height={60} variant="text" animation="wave" />
-      <Skeleton height={60} variant="text" animation="wave" />
-      <Skeleton height={60} variant="text" animation="wave" />
-      <Skeleton height={60} variant="text" animation="wave" />
-      {/* <Skeleton variant="circle" width={40} height={40} />
-      <Skeleton variant="rect" width={210} height={118} /> */}
+      <Skeleton
+        className={classes.skeletonChild}
+        height={80}
+        variant="rect"
+        animation="wave"
+      />
+      <Skeleton
+        className={classes.skeletonChild}
+        height={60}
+        variant="text"
+        animation="wave"
+      />
+      <Skeleton
+        className={classes.skeletonChild}
+        height={60}
+        variant="text"
+        animation="wave"
+      />
+      <Skeleton
+        className={classes.skeletonChild}
+        height={60}
+        variant="text"
+        animation="wave"
+      />
+      <Skeleton
+        className={classes.skeletonChild}
+        height={60}
+        variant="text"
+        animation="wave"
+      />
+      <Skeleton
+        className={classes.skeletonChild}
+        height={60}
+        variant="text"
+        animation="wave"
+      />
     </div>
   ) : (
     <TableContainer className={classes.tableContainer} component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <StyledTableCell width={200}>Name</StyledTableCell>
-            <StyledTableCell width={200} align="right">
+            <StyledTableCell width={300}>Name</StyledTableCell>
+            <StyledTableCell width={150} align="right">
               Score
             </StyledTableCell>
-            <StyledTableCell width={200} align="right">
+            <StyledTableCell width={150} align="right">
               Time
             </StyledTableCell>
           </TableRow>
@@ -204,21 +236,21 @@ const CustomPaginationActionsTable = (props) => {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter class={classes.tableFooter}>
+        <TableFooter className={classes.tableFooter}>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+              rowsPerPageOptions={[3, 5, 10]}
               colSpan={3}
               count={users.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
                 inputProps: { "aria-label": "rows per page" },
-                native: true,
+                // native: true,
               }}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
+              // ActionsComponent={TablePaginationActions}
             />
           </TableRow>
         </TableFooter>

@@ -1,10 +1,7 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from "redux";
 
-import triviaReducer from '../reducers/trivia';
-
-
-
+import triviaReducer from "../reducers/trivia";
 
 export default combineReducers({
-    triviaReducer
+  triviaReducer,
 });

@@ -10,6 +10,17 @@ const useStyles = makeStyles((theme) =>
       color: "#eee",
       height: "60px",
       backgroundColor: theme.palette.primary.dark,
+      display: "flex",
+      alignItems: "center",
+    },
+    inner: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    innerText: {
+      fontSize: "1.1rem",
     },
   })
 );
@@ -19,12 +30,9 @@ const Footer = (props) => {
 
   return (
     <footer className={classes.footer}>
-      <Container maxWidth="lg">
-        <Toolbar>
-          <Typography variant="body1" color="inherit">
-            © 2021 Trivia
-          </Typography>
-        </Toolbar>
+      <Container className={classes.inner} maxWidth="lg">
+        <span className={classes.innerText}>© 2021 Trivia</span>
+        <span className={classes.innerText}>Developed by Simon Sanchez</span>
       </Container>
     </footer>
   );

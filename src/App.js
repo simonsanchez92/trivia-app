@@ -15,33 +15,34 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
-    // position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
+  },
+  pages: {
+    position: "relative",
     backgroundImage: `url(${
       process.env.PUBLIC_URL + "/assets/background.jpg"
     })`,
     backgroundColor: "#232A34",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    zIndex: "5",
-    display: "flex",
-    flexDirection: "column",
-    height: "100vh",
-  },
-  overlay: {
-    position: "absolute",
-    top: "0",
-    left: "0",
-    width: "100%",
-    backgroundColor: "black",
-    opacity: "0.5",
-    zIndex: "1",
-  },
-  pages: {
     flex: "1",
     display: "flex",
     flexDirection: "column",
     alignContent: "center",
     justifyContent: "center",
+    zIndex: "10",
+  },
+  overlay: {
+    position: "absolute",
+    top: "0",
+    left: "0",
+    bottom: "0",
+    width: "100%",
+    backgroundColor: "black",
+    opacity: "0.3",
+    zIndex: "1",
   },
 });
 
@@ -69,8 +70,8 @@ function App(props) {
                 <Rankings />{" "}
               </Route>
             </Switch>
+            <div className={classes.overlay}></div>
           </main>
-          {/* <div className={classes.overlay}></div> */}
         </Router>
         <Footer />
       </div>
