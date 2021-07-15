@@ -7,11 +7,15 @@
   text-align: center;
 } */
 body {
-  /* padding-top: 58px; */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 #root {
   display: flex;
   flex-direction: column;
+
+  height: 100%;
 }
 /* form{
   border: 2px solid red;

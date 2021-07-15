@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   root: {
     display: "flex",
     flexDirection: "column",
-    height: "100vh",
+    height: "100%",
   },
   pages: {
     position: "relative",
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     alignContent: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     zIndex: "10",
   },
   overlay: {
@@ -71,9 +71,9 @@ function App(props) {
               </Route>
             </Switch>
             <div className={classes.overlay}></div>
+            <Footer />
           </main>
         </Router>
-        <Footer />
       </div>
     </Provider>
   );

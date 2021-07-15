@@ -8,10 +8,11 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     footer: {
       color: "#eee",
-      height: "60px",
+      height: "50px",
       backgroundColor: theme.palette.primary.dark,
       display: "flex",
       alignItems: "center",
+      marginTop: "100px",
     },
     inner: {
       display: "flex",
