@@ -146,11 +146,7 @@ export const gameOver = (user, score) => async (dispatch) => {
       },
     };
 
-    axios.post(
-      "http://localhost/trivia-backend/public/api/users",
-      body,
-      config
-    );
+    axios.post("http://localhost:8180/api/users", body, config);
   } catch (err) {
     console.log(err);
   }

@@ -29,9 +29,7 @@ const Rankings = (props) => {
   }
   //Fetch users from database
   const getUsers = async () => {
-    const res = await axios.get(
-      "http://localhost/trivia-backend/public/api/users"
-    );
+    const res = await axios.get("http://localhost:8180/api/users");
     const data = await res.data.data;
 
     let ranking = [];
