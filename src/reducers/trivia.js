@@ -6,6 +6,7 @@ import {
   CORRECT_ANSWER,
   RESET_STATE,
   GAME_OVER,
+  GET_USERS,
   SET_USERNAME,
 } from "../actions/types";
 
@@ -16,6 +17,7 @@ const initialState = {
   current: "",
   currentCorrect: "",
   answers: [],
+  ranking: [],
   score: 0,
   time: 0,
 };
@@ -67,6 +69,11 @@ function triviaReducer(state = initialState, action) {
         answers: [],
         score: 0,
         time: payload,
+      };
+    case GET_USERS:
+      return {
+        ...state,
+        ranking: payload,
       };
 
     case SET_USERNAME:

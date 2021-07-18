@@ -10,5 +10,6 @@ export const INCORRECT_ANSWER = "INCORRECT_ANSWER";
 export const UPDATE_BANK = "UPDATE_BANK";
 
 export const GAME_OVER = "GAME_OVER";
+export const GET_USERS = "GET_USERS";
 
 export const SET_USERNAME = "SET_USERNAME";

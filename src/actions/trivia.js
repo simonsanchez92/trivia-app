@@ -11,6 +11,7 @@ import {
   INCORRECT_ANSWER,
   UPDATE_BANK,
   GAME_OVER,
+  GET_USERS,
   RESET_STATE,
 } from "./types";
 
@@ -146,14 +147,34 @@ export const gameOver = (user, score) => async (dispatch) => {
       },
     };
 
-    axios.post("http://localhost:8180/api/users", body, config);
+    axios.post("https://trivia-app-v1.herokuapp.com/api/users", body, config);
+
+    dispatch({
+      type: GAME_OVER,
+      payload: currentTime,
+    });
+
+    store.dispatch(getUsers());
   } catch (err) {
     console.log(err);
   }
-  dispatch({
-    type: GAME_OVER,
-    payload: currentTime,
-  });
+};
+
+export const getUsers = () => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      "https://trivia-app-v1.herokuapp.com/api/users"
+    );
+
+    const data = await res.data.data;
+
+    dispatch({
+      type: GET_USERS,
+      payload: data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const resetState = () => async (dispatch) => {

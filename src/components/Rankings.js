@@ -9,6 +9,8 @@ import RankingsTable from "./RankingsTable";
 
 import { formatTime } from "../utils/timeFormatter";
 
+import { getUsers } from "../actions/trivia";
+
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -18,43 +20,25 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const Rankings = (props) => {
-  const classes = useStyles(props);
+const Rankings = ({ myOwnProps, ranking, getUsers }) => {
+  const classes = useStyles(myOwnProps);
 
   const [users, setUsers] = useState([]);
 
-  function createData(name, score, time) {
-    time = formatTime(time);
-    return { name, score, time };
-  }
-  //Fetch users from database
-  const getUsers = async () => {
-    const res = await axios.get("http://localhost:8180/api/users");
-    const data = await res.data.data;
-
-    let ranking = [];
-
-    //Sort users by score
-    ranking = await data
-      .sort((a, b) => b.score - a.score)
-      .map((user) => {
-        return createData(user.name, user.score, user.time);
-      });
-
-    setUsers(ranking);
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
+  // useEffect(() => {
+  //   handleGetUsers();
+  // }, []);
 
   return (
     <div className={classes.root}>
-      <RankingsTable users={users} />
+      <RankingsTable />
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state, ownProps) => ({
+  myOwnProps: ownProps,
+  ranking: state.triviaReducer.ranking,
+});
 
-export default connect(mapStateToProps)(Rankings);
+export default connect(mapStateToProps, { getUsers })(Rankings);

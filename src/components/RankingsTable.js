@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -17,6 +17,10 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 
 import Skeleton from "@material-ui/lab/Skeleton";
+
+import { connect } from "react-redux";
+
+import { formatTime } from "../utils/timeFormatter";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -144,12 +148,12 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const CustomPaginationActionsTable = (props) => {
-  const { users } = props;
+const CustomPaginationActionsTable = ({ ranking }) => {
+  const [users, setUsers] = useState([]);
 
   const classes = useStyles2();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
@@ -163,45 +167,46 @@ const CustomPaginationActionsTable = (props) => {
     setPage(0);
   };
 
+  //Format data taken from database
+  function createData(name, score, time) {
+    time = formatTime(time);
+    return { name, score, time };
+  }
+
+  //Fetch users from database
+  const handleGetUsers = () => {
+    const ranks = ranking
+      .sort((a, b) => b.score - a.score)
+      .map((user) => {
+        return createData(user.name, user.score, user.time);
+      });
+
+    setUsers(ranks);
+  };
+
+  const buildSkeleton = () => {
+    let elements = [];
+
+    for (let i = 0; i < 5; i++) {
+      elements.push(
+        <Skeleton
+          key={i}
+          className={classes.skeletonChild}
+          height={60}
+          variant="rect"
+          animation="wave"
+        />
+      );
+    }
+    console.log(elements);
+    return elements;
+  };
+  useEffect(() => {
+    handleGetUsers();
+  }, [ranking]);
+
   return users.length === 0 ? (
-    <div className={classes.skeleton}>
-      <Skeleton
-        className={classes.skeletonChild}
-        height={80}
-        variant="rect"
-        animation="wave"
-      />
-      <Skeleton
-        className={classes.skeletonChild}
-        height={60}
-        variant="text"
-        animation="wave"
-      />
-      <Skeleton
-        className={classes.skeletonChild}
-        height={60}
-        variant="text"
-        animation="wave"
-      />
-      <Skeleton
-        className={classes.skeletonChild}
-        height={60}
-        variant="text"
-        animation="wave"
-      />
-      <Skeleton
-        className={classes.skeletonChild}
-        height={60}
-        variant="text"
-        animation="wave"
-      />
-      <Skeleton
-        className={classes.skeletonChild}
-        height={60}
-        variant="text"
-        animation="wave"
-      />
-    </div>
+    <div className={classes.skeleton}>{buildSkeleton()}</div>
   ) : (
     <TableContainer className={classes.tableContainer} component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
@@ -246,7 +251,6 @@ const CustomPaginationActionsTable = (props) => {
               page={page}
               SelectProps={{
                 inputProps: { "aria-label": "rows per page" },
-                // native: true,
               }}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -259,4 +263,8 @@ const CustomPaginationActionsTable = (props) => {
   );
 };
 
-export default CustomPaginationActionsTable;
+const mapStateToProps = (state) => ({
+  ranking: state.triviaReducer.ranking,
+});
+
+export default connect(mapStateToProps)(CustomPaginationActionsTable);
