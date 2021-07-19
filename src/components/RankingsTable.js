@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -167,14 +167,8 @@ const CustomPaginationActionsTable = ({ ranking }) => {
     setPage(0);
   };
 
-  //Format data taken from database
-  function createData(name, score, time) {
-    time = formatTime(time);
-    return { name, score, time };
-  }
-
   //Fetch users from database
-  const handleGetUsers = () => {
+  const handleGetUsers = useCallback(() => {
     const ranks = ranking
       .sort((a, b) => b.score - a.score)
       .map((user) => {
@@ -182,8 +176,15 @@ const CustomPaginationActionsTable = ({ ranking }) => {
       });
 
     setUsers(ranks);
-  };
+  }, [ranking]);
 
+  //Format data taken from database
+  function createData(name, score, time) {
+    time = formatTime(time);
+    return { name, score, time };
+  }
+
+  //Skeleton for loading effect
   const buildSkeleton = () => {
     let elements = [];
 
@@ -198,12 +199,12 @@ const CustomPaginationActionsTable = ({ ranking }) => {
         />
       );
     }
-    console.log(elements);
     return elements;
   };
+
   useEffect(() => {
     handleGetUsers();
-  }, [ranking]);
+  }, [ranking, handleGetUsers]);
 
   return users.length === 0 ? (
     <div className={classes.skeleton}>{buildSkeleton()}</div>

@@ -12,58 +12,6 @@ import { useHistory } from "react-router-dom";
 
 import { getQuestions, setUser, resetState } from "../actions/trivia";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    main: {
-      display: "flex",
-      justifyContent: "center",
-      padding: "40px 0 0 0",
-      margin: "20px 0",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    hero: {
-      backgroundColor: "#eee",
-      margin: "0 10px",
-      padding: "0 15px 15px 15px",
-      border: "1px solid black",
-      borderRadius: "4px",
-      zIndex: "10",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "500px",
-      maxWidth: "80%",
-    },
-    heroTitle: {
-      fontSize: "2rem",
-      textAlign: "center",
-    },
-    heroBtns: {
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-    playBtnContainer: {
-      display: "flex",
-      margin: "20px 0",
-    },
-    textField: {
-      flex: "1",
-    },
-    rankingsLink: {
-      textDecoration: "none",
-      color: "#eee",
-    },
-    paper: {
-      padding: "10px",
-      border: "2px solid black",
-    },
-  })
-);
-
 const Home = ({ ownProps, resetState }) => {
   const classes = useStyles(ownProps);
   const history = useHistory();
@@ -75,6 +23,9 @@ const Home = ({ ownProps, resetState }) => {
 
   const handleClickOpen = () => {
     if (formData !== "") {
+      store.dispatch(getQuestions());
+      store.dispatch(setUser(formData));
+
       setTextFieldError(false);
       setOpen(true);
     } else {
@@ -94,15 +45,13 @@ const Home = ({ ownProps, resetState }) => {
 
   const handlePlay = () => {
     if (formData !== "") {
-      store.dispatch(getQuestions());
-      store.dispatch(setUser(formData));
       history.push("/game");
     }
   };
 
   useEffect(() => {
     resetState();
-  }, []);
+  }, [resetState]);
 
   return (
     <div className={classes.main}>
@@ -168,6 +117,57 @@ const Home = ({ ownProps, resetState }) => {
   );
 };
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    main: {
+      display: "flex",
+      justifyContent: "center",
+      padding: "40px 0 0 0",
+      margin: "20px 0",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    hero: {
+      backgroundColor: "#eee",
+      margin: "0 10px",
+      padding: "0 15px 15px 15px",
+      border: "1px solid black",
+      borderRadius: "4px",
+      zIndex: "10",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "500px",
+      maxWidth: "80%",
+    },
+    heroTitle: {
+      fontSize: "2rem",
+      textAlign: "center",
+    },
+    heroBtns: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+    playBtnContainer: {
+      display: "flex",
+      margin: "20px 0",
+    },
+    textField: {
+      flex: "1",
+    },
+    rankingsLink: {
+      textDecoration: "none",
+      color: "#eee",
+    },
+    paper: {
+      padding: "10px",
+      border: "2px solid black",
+    },
+  })
+);
 const mapStateToProps = (state, ownProps) => ({});
 
 export default connect(mapStateToProps, { resetState })(Home);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 
 import Navbar from "./components/Navbar";
@@ -16,8 +16,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { getUsers } from "./actions/trivia";
 
+import { createBrowserHistory } from "history";
+
 function App(props) {
   const classes = useStyles(props);
+
+  const history = createBrowserHistory();
 
   useEffect(() => {
     store.dispatch(getUsers());
@@ -26,12 +30,20 @@ function App(props) {
   return (
     <Provider store={store}>
       <div className={classes.root}>
-        <Router>
+        <Router
+          history={history}
+          basename={process.env.PUBLIC_URL}
+          getUserConfirmation={(msg, callback) => {
+            // this is the default behavior
+            const allowTransition = window.confirm(msg);
+            callback(allowTransition);
+          }}
+        >
           <Navbar />
 
           <main className={classes.pages}>
             <Switch>
-              <Route exact path="/">
+              <Route exact path="/trivia-app">
                 {" "}
                 <Home />
               </Route>

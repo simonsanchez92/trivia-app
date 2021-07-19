@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, Prompt } from "react-router-dom";
 
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -20,41 +20,6 @@ import Dialog from "@material-ui/core/Dialog";
 
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
-
-const useStyles = makeStyles({
-  root: {
-    margin: "0 auto",
-    marginTop: "30px",
-    backgroundColor: "#2c2c2ccc",
-    width: "85%",
-    color: "#eee",
-    padding: "20px",
-    zIndex: "2",
-  },
-  timerContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  questionContainer: {},
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  optionsContainer: {
-    width: "100%",
-    padding: "15px 0",
-  },
-  formButton: {
-    width: "500px",
-    maxWidth: "100%",
-  },
-  paper: {
-    padding: "20px",
-  },
-});
 
 const Game = ({
   ownProps,
@@ -112,6 +77,24 @@ const Game = ({
     setOpen(false);
     history.push("/");
   };
+
+  const [isFormIncomplete, setIsFormIncomplete] = useState(true);
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+
+  const alertUser = (e) => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
+
+  if (questions.length === 0) {
+    history.push("/trivia-app");
+  }
 
   return (
     <div className={classes.root}>
@@ -184,9 +167,48 @@ const Game = ({
           </Dialog>
         </div>
       </form>
+      <Prompt
+        when={isFormIncomplete}
+        message="Are you sure you want to leave? You will lose all your progress"
+      />
     </div>
   );
 };
+
+const useStyles = makeStyles({
+  root: {
+    margin: "0 auto",
+    marginTop: "30px",
+    backgroundColor: "#2c2c2ccc",
+    width: "85%",
+    color: "#eee",
+    padding: "20px",
+    zIndex: "2",
+  },
+  timerContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  questionContainer: {},
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  optionsContainer: {
+    width: "100%",
+    padding: "15px 0",
+  },
+  formButton: {
+    width: "500px",
+    maxWidth: "100%",
+  },
+  paper: {
+    padding: "20px",
+  },
+});
 
 const mapStateToProps = (state, ownProps) => ({
   questions: state.triviaReducer.questions,

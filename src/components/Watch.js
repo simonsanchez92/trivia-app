@@ -16,7 +16,7 @@ const Watch = ({ getTime }) => {
     }, 1000);
 
     return () => clearInterval(countRef.current);
-  }, [timer]);
+  }, [timer, getTime]);
 
   return (
     <div className="stopwatch-card">

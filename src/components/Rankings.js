@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 
 import { connect } from "react-redux";
 
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import RankingsTable from "./RankingsTable";
-
-import { formatTime } from "../utils/timeFormatter";
-
-import { getUsers } from "../actions/trivia";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -20,14 +15,8 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const Rankings = ({ myOwnProps, ranking, getUsers }) => {
+const Rankings = ({ myOwnProps }) => {
   const classes = useStyles(myOwnProps);
-
-  const [users, setUsers] = useState([]);
-
-  // useEffect(() => {
-  //   handleGetUsers();
-  // }, []);
 
   return (
     <div className={classes.root}>
@@ -41,4 +30,4 @@ const mapStateToProps = (state, ownProps) => ({
   ranking: state.triviaReducer.ranking,
 });
 
-export default connect(mapStateToProps, { getUsers })(Rankings);
+export default connect(mapStateToProps)(Rankings);
