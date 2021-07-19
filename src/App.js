@@ -43,7 +43,7 @@ function App(props) {
 
           <main className={classes.pages}>
             <Switch>
-              <Route exact path="/trivia-app">
+              <Route exact path="/">
                 {" "}
                 <Home />
               </Route>

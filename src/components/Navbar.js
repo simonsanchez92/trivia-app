@@ -40,7 +40,7 @@ const Navbar = (props) => {
   return (
     <AppBar className={classes.appBar} position="sticky">
       <Toolbar className={classes.appBarWrapper}>
-        <Link className={classes.appBarTitle} to="/trivia-app">
+        <Link className={classes.appBarTitle} to="/">
           Trivia
         </Link>
         <IconButton>
